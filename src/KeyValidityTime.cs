@@ -140,7 +140,7 @@ public class TimeDifference
                 return new KeyValidityTime(this.CreationTime.ToLocalTime(), this.ExpiryTime.ToLocalTime());
             }
 
-            public KeyValidityTime(DateTime creationTime, DateTime expiryTime)
+            public KeyValidityTime(DateTime creationTime, DateTime expiryTime = new DateTime())
             {
                 this.CreationTime = creationTime;
                 this.ExpiryTime = expiryTime;
