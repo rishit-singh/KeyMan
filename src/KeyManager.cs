@@ -84,8 +84,7 @@ namespace KeyMan
             {
                 APIKey key = new APIKey(GeneralTools.GetRandomBase64(64), userID, permissionsMap, true);
                 
-                this.
-                    APIKeyMap.Add(key.Key, key);
+                this.APIKeyMap.Add(key.Key, key);
 
                 if (backUp)
                 {
@@ -119,6 +118,17 @@ namespace KeyMan
                 }
 
                 return false;
+            }
+
+            public bool AddAPIKey(APIKey key)
+            {
+                Console.WriteLine(JsonConvert.SerializeObject(key));
+                if (!this.KeyDB.InsertRecord(key.ToRecord(), this.APIKeyTable))
+                    return false;
+                
+                this.APIKeyMap.Add(key.Key, key);
+                
+                return true;
             }
 
             public APIKeyManager(PostGRESDatabase dbInstance, string tableName = "APIKeys", bool load = false, bool autoBackup = false)

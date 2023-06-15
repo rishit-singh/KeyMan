@@ -38,6 +38,8 @@ public class APIKeyBuilder
 
     public APIKey GenerateKey()
     {
+        this.KeyInstance.Key = KeyMan.GeneralTools.GetRandomBase64(64);
+        
         return this.KeyInstance;
     }
     
@@ -45,4 +47,4 @@ public class APIKeyBuilder
     {
         this.KeyInstance = new APIKey();
     }
-}
+} 

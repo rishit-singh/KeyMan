@@ -75,6 +75,8 @@ namespace KeyMan
             this.Key = null;
             this.UserID = null;
             this.IsLimitless = false;
+            
+            this.Permissions = new Dictionary<string, bool>();
         }
 
         public APIKey(string key, string userID, bool isLimitless = true)
