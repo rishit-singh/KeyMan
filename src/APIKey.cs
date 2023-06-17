@@ -41,7 +41,7 @@ namespace KeyMan
                         this.UserID,
                         KeyTools.GetPermissionsString(this.Permissions),
                         this.ValidityTime.CreationTime.ToString(),
-                        (!this.IsLimitless) ? this.ValidityTime.ExpiryTime.ToString() : null,
+                        (!this.IsLimitless && this.ValidityTime.ExpiryTime != null) ? this.ValidityTime.ExpiryTime.ToString() : null,
                         this.IsLimitless
                     });
             }
@@ -68,6 +68,14 @@ namespace KeyMan
                 this.UserID != null &&
                 this.ValidityTime.IsExpired != true
             );
+        }
+
+        public bool HasPermission(string permission)
+        {
+            if (this.Permissions.ContainsKey(permission))
+                return this.Permissions[permission];
+
+            return false;
         }
 
         public APIKey()
@@ -135,7 +143,7 @@ namespace KeyMan
             this.Key = (string)record.Values[0];
             this.UserID = (string)record.Values[1];
             this.Permissions = KeyTools.GetPermissionsMap((string)record.Values[2]);
-            this.ValidityTime = new KeyValidityTime(DateTime.Parse((string)record.Values[3]), DateTime.Parse((string)record.Values[4]));
+            this.ValidityTime = new KeyValidityTime(DateTime.Parse((string)record.Values[3]), (record.Values[4] != null) ? DateTime.Parse((string)record.Values[4]) : new DateTime());
             this.IsLimitless = (bool)record.Values[5];
         }
     }

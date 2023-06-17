@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging.Abstractions;
 using OpenDatabase;
 using OpenDatabaseAPI;
 using Newtonsoft.Json;
@@ -23,8 +24,8 @@ namespace KeyMan
             {
                 return new Table(tableName,
                     new Field[] {
-                         new Field("Key", FieldType.Char, new Flag[] { Flag.NotNull }, 88),
-                         new Field("UserID", FieldType.Char, new Flag[] { Flag.PrimaryKey, Flag.NotNull }, 64),
+                         new Field("Key", FieldType.Char, new Flag[] {  Flag.PrimaryKey, Flag.NotNull }, 88),
+                         new Field("UserID", FieldType.Char, new Flag[] {Flag.NotNull }, 64),
                          new Field("Permissions", FieldType.VarChar, new Flag[]{}, 1024),
                          new Field("CreationTime", FieldType.VarChar, new Flag[] { Flag.NotNull}, 22),
                          new Field("ExpiryTime", FieldType.VarChar, new Flag[]{}, 22),
@@ -50,7 +51,12 @@ namespace KeyMan
 
             public APIKey GetAPIKey(string key)
             {
-                return new APIKey(this.KeyDB.FetchQueryData($"SELECT * FROM {this.APIKeyTable} WHERE Key=\'{key}\'", this.APIKeyTable)[0]);
+                Record[] records = this.KeyDB.FetchQueryData($"SELECT * FROM {this.APIKeyTable} WHERE Key=\'{key}\'", this.APIKeyTable);
+
+                if (records.Length == 0)
+                    return null;
+                
+                return new APIKey(records[0]);
             }
 
             public void BackupKeys()
@@ -122,7 +128,6 @@ namespace KeyMan
 
             public bool AddAPIKey(APIKey key)
             {
-                Console.WriteLine(JsonConvert.SerializeObject(key));
                 if (!this.KeyDB.InsertRecord(key.ToRecord(), this.APIKeyTable))
                     return false;
                 
@@ -147,7 +152,6 @@ namespace KeyMan
                 if (load) 
                     this.LoadKeys();
             }
-       
 
             ~APIKeyManager()
             {
