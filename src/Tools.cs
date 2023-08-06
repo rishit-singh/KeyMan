@@ -3,6 +3,7 @@ using System.CodeDom.Compiler;
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using Newtonsoft.Json;
 using Npgsql;
 
 namespace KeyMan
@@ -136,9 +137,9 @@ namespace KeyMan
 
             string[] split = permissionsString.Split(';'), split1;
 
-            for (int x = 0; x < split.Length; x++)
-                permissionsMap.Add((split1 = split[x].Split('='))[0], split[1] == "true");
-            
+            for (int x = 0; x < split.Length - 1; x++)
+                permissionsMap.Add((split1 = split[x].Split('='))[0], split1[1] == "True");
+
             return permissionsMap;
         } 
     }
