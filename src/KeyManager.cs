@@ -16,7 +16,7 @@ namespace KeyMan
 
             public string APIKeyTable; // Default API key table
 
-            public static TimeDifference DefaultKeyTimeDifference = new TimeDifference();
+            public static readonly TimeDifference DefaultKeyTimeDifference = new TimeDifference();
 
             public bool AutoBackup;
            
@@ -126,6 +126,20 @@ namespace KeyMan
                 return false;
             }
 
+            public bool IsValid(string key, string[] permissions = null)
+            {
+                APIKey apiKey;
+
+                if ((apiKey = this.GetAPIKey(key)) == null)
+                    return false;
+                
+                for (int x = 0; x < permissions.Length; x++)
+                    if (!apiKey.HasPermission(permissions[x]))
+                        return false;
+                
+                return true;
+            }
+
             public bool AddAPIKey(APIKey key)
             {
                 if (!this.KeyDB.InsertRecord(key.ToRecord(), this.APIKeyTable))
@@ -160,3 +174,4 @@ namespace KeyMan
             }
         }
     }
+    
