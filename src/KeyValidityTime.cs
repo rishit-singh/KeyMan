@@ -93,7 +93,9 @@ public class TimeDifference
                 this.TimeDifferenceArray = new int[6];
 
                 GeneralTools.ArrayCopy<int>(ref timeDifferenceArray, ref this.TimeDifferenceArray);
-
+    
+                timeDifferenceArray.CopyTo(this.TimeDifferenceArray, 0);    
+                
                 this.MapProperties();
             }
         }

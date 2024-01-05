@@ -5,10 +5,36 @@ using Newtonsoft.Json;
 
 namespace KeyMan
 {
-     /// <summary>
+		public interface IKeyManager
+		{
+			bool KeyExists(APIKey key, bool dbCheck = true);
+		
+            bool KeyExists(string key, bool dbCheck = true);
+
+            APIKey GetAPIKey(string key);
+
+            void BackupKeys();
+
+            void LoadKeys();
+
+            int GetAPIKeyCount();
+
+            APIKey IssueAPIKey(string userID, Dictionary<string, bool> permissionsMap, bool backUp = true);
+
+            APIKey IssueAPIKey(string userID, Dictionary<string, bool> permissionsMap, KeyValidityTime validityTime,
+                bool backUp = true);
+
+            bool RevokeAPIKey(string key);
+
+            bool IsValid(string key, string[] permissions = null);
+
+            bool AddAPIKey(APIKey key);
+        }
+
+        /// <summary>
         /// Routines for creating and managing API keys.
         /// </summary>
-        public class APIKeyManager
+        public class APIKeyManager : IKeyManager
         {
             public PostGRESDatabase KeyDB; // Database instance where the keys will be stored.
 
