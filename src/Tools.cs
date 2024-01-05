@@ -8,7 +8,7 @@ using Npgsql;
 
 namespace KeyMan
 {
-    public class GeneralTools
+    public static class GeneralTools
     {
         public static void Swap<T>(ref T val, ref T val1)
         {
@@ -115,7 +115,7 @@ namespace KeyMan
         }
     }
 
-    public class KeyTools
+    public static class KeyTools
     {
         public static string GetPermissionsString(Dictionary<string, bool> permissionsMap)
         {

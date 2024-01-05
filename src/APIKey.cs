@@ -11,15 +11,15 @@ namespace KeyMan
     /// </summary>
     public class APIKey : IRecord
     {
-        public string Key;
+        public string Key { get; set; }
 
-        public string UserID;
+        public string UserID { get; set; }
 
-        public KeyValidityTime ValidityTime;
+        public KeyValidityTime ValidityTime { get; set; }
 
-        public Dictionary<string, bool> Permissions;
+        public Dictionary<string, bool> Permissions { get; set; }
 
-        public bool IsLimitless;
+        public bool IsLimitless { get; set; }
 
         public bool IsExpired { get { return this.GetIsExpired(); } set { } }
 

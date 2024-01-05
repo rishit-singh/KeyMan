@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging.Abstractions;
 using OpenDatabase;
 using OpenDatabaseAPI;
@@ -36,16 +37,18 @@ namespace KeyMan
         /// </summary>
         public class APIKeyManager : IKeyManager
         {
-            public PostGRESDatabase KeyDB; // Database instance where the keys will be stored.
+            private PostGRESDatabase KeyDB; // Database instance where the keys will be stored.
 
-            public Dictionary<string, APIKey> APIKeyMap;
+            private readonly DbContext _dbContext;
+            
+            private Dictionary<string, APIKey> APIKeyMap;
 
-            public string APIKeyTable; // Default API key table
+            public string APIKeyTable { get; private set; }  // Default API key table
 
             public static readonly TimeDifference DefaultKeyTimeDifference = new TimeDifference();
-
+    
             public bool AutoBackup;
-           
+                
             public static Table GetTableSchema(string tableName)
             {
                 return new Table(tableName,
