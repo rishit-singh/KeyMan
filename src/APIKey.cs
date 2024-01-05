@@ -81,7 +81,7 @@ namespace KeyMan
 
         public static APIKey FromModel(ApiKeyModel apiKey)
         {
-            return new APIKey(apiKey.Key, apiKey.Userid, KeyTools.GetPermissionsMap(apiKey.Permissions), new KeyValidityTime(DateTime.Parse(apiKey.Creationtime), DateTime.Parse(apiKey.Expirytime)));
+            return new APIKey(apiKey.Key, apiKey.Userid, KeyTools.GetPermissionsMap(apiKey.Permissions), new KeyValidityTime(DateTime.Parse(apiKey.Creationtime), (apiKey.Expirytime != null) ? DateTime.Parse(apiKey.Expirytime) : new DateTime()));
         }
 
         public ApiKeyModel ToModel()

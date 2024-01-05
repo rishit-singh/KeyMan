@@ -22,7 +22,7 @@ namespace KeyMan
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             => optionsBuilder.UseNpgsql(
-                $"Host={Environment.GetEnvironmentVariable("HOSTNAME")};Database={Environment.GetEnvironmentVariable("DATABASE")};Username=${Environment.GetEnvironmentVariable("USERNAME")};Password={Environment.GetEnvironmentVariable("PASSWORD")}");
+                $"Host={Environment.GetEnvironmentVariable("HOSTNAME")};Database={Environment.GetEnvironmentVariable("DATABASE")};Username={Environment.GetEnvironmentVariable("USERNAME")};Password={Environment.GetEnvironmentVariable("PASSWORD")}");
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

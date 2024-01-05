@@ -44,6 +44,8 @@ namespace KeyMan
             bool AddAPIKey(APIKey key);
 
             Task<bool> AddAPIKeyAsync(APIKey key);
+            
+            List<APIKey> List(); 
         }
 
         /// <summary>
@@ -60,18 +62,10 @@ namespace KeyMan
             public static readonly TimeDifference DefaultKeyTimeDifference = new TimeDifference();
     
             public bool AutoBackup;
-                
-            public static Table GetTableSchema(string tableName)
+
+            public List<APIKey> List()
             {
-                return new Table(tableName,
-                    new Field[] {
-                         new Field("Key", FieldType.Char, new Flag[] {  Flag.PrimaryKey, Flag.NotNull }, 88),
-                         new Field("UserID", FieldType.Char, new Flag[] {Flag.NotNull }, 64),
-                         new Field("Permissions", FieldType.VarChar, new Flag[]{}, 1024),
-                         new Field("CreationTime", FieldType.VarChar, new Flag[] { Flag.NotNull}, 22),
-                         new Field("ExpiryTime", FieldType.VarChar, new Flag[]{}, 22),
-                         new Field("IsLimitless", FieldType.Bool, new Flag[] { Flag.NotNull })
-                    }); 
+                return this._dbContext.ApiKeys.Select(model => APIKey.FromModel(model)).ToList(); 
             }
             
             public bool KeyExists(APIKey key, bool dbCheck = true)
