@@ -51,6 +51,16 @@ namespace KeyMan
             return timeDifference;
         }
 
+        public DateTime AddTo(DateTime time)
+        {
+            return time.AddYears(this.Years)
+                .AddMonths(this.Months)
+                .AddDays(this.Days)
+                .AddHours(this.Hours)
+                .AddMinutes(this.Minutes)
+                .AddSeconds(this.Seconds);
+        }
+
         protected void MapTimeDifferenceArray()
         {
             this.TimeDifferenceArray = new int[]
@@ -95,8 +105,6 @@ namespace KeyMan
         {
             this.TimeDifferenceArray = new int[6];
 
-            GeneralTools.ArrayCopy<int>(ref timeDifferenceArray, ref this.TimeDifferenceArray);
-
             timeDifferenceArray.CopyTo(this.TimeDifferenceArray, 0);
 
             this.MapProperties();
@@ -120,13 +128,7 @@ namespace KeyMan
         public void SetTimeDifference(TimeDifference timeDifference)
         {
             this.Difference = timeDifference;
-
-            this.ExpiryTime = this.ExpiryTime.AddYears(timeDifference.Years);
-            this.ExpiryTime = this.ExpiryTime.AddMonths(this.Difference.Months);
-            this.ExpiryTime = this.ExpiryTime.AddDays(this.Difference.Days);
-            this.ExpiryTime = this.ExpiryTime.AddHours(this.Difference.Hours);
-            this.ExpiryTime = this.ExpiryTime.AddMinutes(this.Difference.Minutes);
-            this.ExpiryTime = this.ExpiryTime.AddSeconds(this.Difference.Seconds);
+            this.ExpiryTime = this.Difference.AddTo(this.CreationTime);
         }
 
         private bool GetIsExpired()

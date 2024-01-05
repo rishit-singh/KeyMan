@@ -1,7 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-
+using System.Runtime.CompilerServices;
+using KeyMan.Models;
 using OpenDatabase;
 
 namespace KeyMan
@@ -76,6 +77,24 @@ namespace KeyMan
                 return this.Permissions[permission];
 
             return false;
+        }
+
+        public static APIKey FromModel(ApiKeyModel apiKey)
+        {
+            return new APIKey(apiKey.Key, apiKey.Userid, KeyTools.GetPermissionsMap(apiKey.Permissions), new KeyValidityTime(DateTime.Parse(apiKey.Creationtime), DateTime.Parse(apiKey.Expirytime)));
+        }
+
+        public ApiKeyModel ToModel()
+        {
+            return new ApiKeyModel
+            {
+                Key = this.Key, 
+                Userid = this.UserID,
+                Permissions = KeyTools.GetPermissionsString(this.Permissions),
+                Creationtime = this.ValidityTime.CreationTime.ToString(),
+                Expirytime = this.ValidityTime.ExpiryTime.ToString(),
+                Islimitless = this.IsLimitless
+            };
         }
 
         public APIKey()

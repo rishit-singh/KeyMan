@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace KeyMan.Models;
 
-public partial class Apikey
+public partial class ApiKeyModel 
 {
     public string Key { get; set; } = null!;
 
