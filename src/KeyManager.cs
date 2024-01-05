@@ -138,7 +138,7 @@ namespace KeyMan
                         return false;
                 
                 return true;
-            }
+            } 
 
             public bool AddAPIKey(APIKey key)
             {
