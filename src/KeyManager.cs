@@ -169,7 +169,8 @@ namespace KeyMan
                 List<APIKey> keys = this._dbContext.ApiKeys.Select(model => APIKey.FromModel(model)).ToList();
                 
                 foreach (APIKey key in keys)
-                    this.APIKeyMap.Add(key.Key, key);
+                    if (!this.APIKeyMap.ContainsKey(key.Key))
+                        this.APIKeyMap.Add(key.Key, key);
             }
 
             public int GetAPIKeyCount()
